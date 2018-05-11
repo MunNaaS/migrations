@@ -1,8 +1,12 @@
 {
   "name": "migrations",
   "description": "Command line migrations for knex.js with typescript power by oclif.",
-  "version": "1.0.0",
-  "author": "supakit @MunNaaS",
+  "version": "0.0.0",
+  "author": {
+    "name": "Supakit Tanyung",
+    "email": "supakit.tanyung@gmail.com",
+    "url": "https://github.com/MunNaaS"
+  },
   "bin": {
     "migrations": "./bin/run"
   },
