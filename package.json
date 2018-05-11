@@ -1,5 +1,6 @@
 {
   "name": "migrations",
+  "description": "Command line migrations for knex.js with typescript power by oclif.",
   "version": "1.0.0",
   "author": "supakit @MunNaaS",
   "bin": {
@@ -46,7 +47,7 @@
   ],
   "homepage": "https://github.com/MunNaaS/migrations",
   "keywords": [
-    "oclif"
+    "oclif", "knex", "migrations", "migrate", "typescript", "database"
   ],
   "license": "MIT",
   "main": "index.js",
