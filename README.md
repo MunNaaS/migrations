@@ -21,7 +21,7 @@ $ npm install -g migrations
 $ migrations COMMAND
 running command...
 $ migrations (-v|--version|version)
-migrations/1.0.0 linux-x64 node-v10.1.0
+migrations/0.0.0-20180512 linux-x64 node-v10.1.0
 $ migrations --help [COMMAND]
 USAGE
   $ migrations COMMAND
@@ -51,7 +51,7 @@ EXAMPLE
   hello world from ./src/hello.ts!
 ```
 
-_See code: [src/commands/hello.ts](https://github.com/MunNaaS/migrations/blob/v1.0.0/src/commands/hello.ts)_
+_See code: [src/commands/hello.ts](https://github.com/MunNaaS/migrations/blob/v0.0.0-20180512/src/commands/hello.ts)_
 
 ## `migrations help [COMMAND]`
 
