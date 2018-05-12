@@ -2,16 +2,16 @@ import { expect, test } from '@oclif/test'
 
 describe('make', () => {
   test
-  .stdout()
+  .stderr()
   .command(['make'])
   .it('runs make', ctx => {
-    expect(ctx.stdout).to.contain('hello world')
+    // expect(ctx.stderr).to.contain()
   })
 
   test
-  .stdout()
+  .stderr()
   .command(['make', '--table', 'users'])
   .it('runs make --table users', ctx => {
-    expect(ctx.stdout).to.contain('hello world')
+    // expect(ctx.stderr).to.contain()
   })
 })

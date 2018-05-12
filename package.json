@@ -1,12 +1,8 @@
 {
-  "name": "migrations",
+  "name": "@munnaas/migrations",
   "description": "Command line migrations for knex.js with typescript power by oclif.",
-  "version": "0.0.0-20180512",
-  "author": {
-    "name": "Supakit Tanyung",
-    "email": "supakit.tanyung@gmail.com",
-    "url": "https://github.com/MunNaaS"
-  },
+  "version": "0.0.0",
+  "author": "Supakit Tanyung <supakit.tanyung@gmail.com> (https://github.com/MunNaaS)",
   "bin": {
     "migrations": "./bin/run"
   },
@@ -15,7 +11,10 @@
     "@oclif/command": "^1",
     "@oclif/config": "^1",
     "@oclif/plugin-help": "^1",
+    "change-case": "^3.0.2",
+    "cli-ux": "^4.2.1",
     "lodash": "^4.17.10",
+    "moment": "^2.22.1",
     "oclif": "^1.7.40"
   },
   "devDependencies": {
@@ -23,13 +22,14 @@
     "@oclif/test": "^1",
     "@oclif/tslint": "^1",
     "@types/chai": "^4",
+    "@types/globby": "^6.1.0",
     "@types/knex": "^0.14.14",
     "@types/lodash": "^4.14.108",
     "@types/mocha": "^5",
     "@types/node": "^9",
     "backpack-core": "^0.7.0",
     "chai": "^4",
-    "globby": "^8",
+    "globby": "^8.0.1",
     "mocha": "^5",
     "nyc": "^11",
     "ts-node": "^6",
@@ -61,14 +61,13 @@
   "license": "MIT",
   "main": "index.js",
   "oclif": {
-    "commands": "./lib/commands",
+    "commands": "./lib/Commands",
     "bin": "migrations",
     "plugins": [
       "@oclif/plugin-help"
     ]
   },
-  "private": false,
-  "repository": "MunNaaS/migrations",
+  "repository": "https://github.com/MunNaaS/migrations",
   "scripts": {
     "postpack": "rm -f oclif.manifest.json",
     "posttest": "tsc -p test --noEmit && tslint -p test -t stylish",
