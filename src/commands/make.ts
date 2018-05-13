@@ -1,13 +1,14 @@
 import { Command, flags } from '@oclif/command'
-import * as moment from 'moment'
 import { snakeCase } from 'change-case'
+import { utc } from 'moment'
+import { MigrationCreator } from '../migrations/migration-creator'
 
 export default class Make extends Command {
   static description = 'describe the command here'
 
   static examples = [
     `$ migrations make create_users_table --create users
-Created Migration: ${ moment().utc().format('YYYY_MM_DD_HHMMSS') }_create_users_table
+Created Migration: ${ utc().format('YYYY_MM_DD_HHMMSS') }_create_users_table
 `,
   ]
 
@@ -29,17 +30,11 @@ Created Migration: ${ moment().utc().format('YYYY_MM_DD_HHMMSS') }_create_users_
     },
   ]
 
-  private filename?: string
   async run () {
     const { args, flags } = this.parse(Make)
 
-    this.setFileName(args.name)
-    if (this.filename !== undefined) {
-      this.log(`Created Migration: ${ this.filename }`)
-    }
+    const creator = new MigrationCreator()
+
   }
 
-  private setFileName (name: string) {
-    this.filename = `${ moment().utc().format('YYYY_MM_DD_HHMMSS') }_${name}`
-  }
 }

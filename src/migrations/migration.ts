@@ -1,6 +1,6 @@
-import { MigrationConfig as Config } from './Configuration'
+import { MigrationConfig as Config } from './configuration'
 
-export default abstract class Migration {
+export abstract class Migration {
   /**
    * Enables, if supported, wrapping the migration within a transaction.
    *
@@ -13,18 +13,18 @@ export default abstract class Migration {
    *
    * @var string
    */
-  protected _connection: string = ''
+  protected _connection: string | undefined
 
   /**
    * Get the migration connection name.
    *
    * @return string
    */
-  public get connection (): string {
+  public get connection (): string | undefined {
     return this._connection
   }
 
-  public get config (): Config {
+  public get config (): object {
     return {
       transaction: this.withinTransaction,
     }

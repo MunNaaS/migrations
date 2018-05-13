@@ -12,7 +12,8 @@
     "@oclif/config": "^1",
     "@oclif/plugin-help": "^1",
     "change-case": "^3.0.2",
-    "cli-ux": "^4.2.1",
+    "inquirer": "^5.2.0",
+    "listr": "^0.14.1",
     "lodash": "^4.17.10",
     "moment": "^2.22.1",
     "oclif": "^1.7.40"
@@ -23,15 +24,18 @@
     "@oclif/tslint": "^1",
     "@types/chai": "^4",
     "@types/globby": "^6.1.0",
+    "@types/inquirer": "^0.0.41",
     "@types/knex": "^0.14.14",
+    "@types/listr": "^0.13.0",
     "@types/lodash": "^4.14.108",
     "@types/mocha": "^5",
-    "@types/node": "^9",
-    "backpack-core": "^0.7.0",
+    "@types/node": "^10.0.8",
+    "@types/source-map-support": "^0.4.0",
     "chai": "^4",
     "globby": "^8.0.1",
     "mocha": "^5",
     "nyc": "^11",
+    "source-map-support": "^0.5.5",
     "ts-node": "^6",
     "tslib": "^1",
     "tslint": "^5",
@@ -42,7 +46,7 @@
     "knex": "^0.14.6"
   },
   "engines": {
-    "node": ">=8.0.0"
+    "node": ">=8.11.1"
   },
   "files": [
     "/bin",
@@ -59,7 +63,7 @@
     "database"
   ],
   "license": "MIT",
-  "main": "index.js",
+  "main": "lib/index.js",
   "oclif": {
     "commands": "./lib/Commands",
     "bin": "migrations",

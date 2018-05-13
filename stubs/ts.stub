@@ -1,0 +1,42 @@
+import { Migration } from '@munnaas/migrations'
+
+export class ${ className } extends Migration {
+${ !transaction ? '  public withinTransaction: boolean = false' : '' }
+  public up (knex: any) {<%
+  if (table) {%>
+    return knex.schema.${ create ? 'createTable' : 'table' }('${ table }', function (table: any) {
+      ${ increments ? 'table.increments()' : '\r' }<%
+      for (column of columns) {
+        let type = column.type
+        let name = column.name
+        let options = column.options%>
+      table.${ type }(${ name })<% if (Object.keys(options).length > 0) {
+          for (opt in options) {
+            '.'+opt+'('+options[opt]+')'
+          }
+        } %><%
+      } %>
+      ${ timestamps ? 'table.timestamps()' : '\r' }
+    })<%
+    } %>
+  }
+
+  public down (knex: any) {<%
+  if (create) { %>
+    return knex.schema.dropTableIfExists('${ table }')<%
+  } else { %>
+    return knex.schema.table('${ table }', function (table: any) {
+      <% for (column of columns) {
+        let type = column.type
+        let name = column.name
+        let options = column.options %>
+      table.${ column.type }(${ column.name })<% if (Object.keys(options).length > 0) {
+          for (opt in options) {
+            '.'+opt+'('+options[opt]+')'
+          }
+        }
+      } %>
+    })<%
+  } %>
+  }
+}
