@@ -17,11 +17,11 @@ migrations
 # Usage
 <!-- usage -->
 ```sh-session
-$ npm install -g @mueang/migrations
+$ npm install -g @munnaas/migrations
 $ migrations COMMAND
 running command...
 $ migrations (-v|--version|version)
-@mueang/migrations/0.0.0 linux-x64 node-v10.1.0
+@munnaas/migrations/0.0.0 linux-x64 node-v10.1.0
 $ migrations --help [COMMAND]
 USAGE
   $ migrations COMMAND
@@ -30,28 +30,9 @@ USAGE
 <!-- usagestop -->
 # Commands
 <!-- commands -->
-* [`migrations hello [FILE]`](#migrations-hello-file)
 * [`migrations help [COMMAND]`](#migrations-help-command)
-
-## `migrations hello [FILE]`
-
-describe the command here
-
-```
-USAGE
-  $ migrations hello [FILE]
-
-OPTIONS
-  -f, --force
-  -h, --help       show CLI help
-  -n, --name=name  name to print
-
-EXAMPLE
-  $ migrations hello
-  hello world from ./src/hello.ts!
-```
-
-_See code: [src/commands/hello.ts](https://github.com/MunNaaS/migrations/blob/v0.0.0/src/commands/hello.ts)_
+* [`migrations make NAME`](#migrations-make-name)
+* [`migrations up [FILE]`](#migrations-up-file)
 
 ## `migrations help [COMMAND]`
 
@@ -68,5 +49,48 @@ OPTIONS
   --all  see all commands in CLI
 ```
 
-_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v1.2.10/src/commands/help.ts)_
+_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v1.2.11/src/commands/help.ts)_
+
+## `migrations make NAME`
+
+describe the command here
+
+```
+USAGE
+  $ migrations make NAME
+
+ARGUMENTS
+  NAME  The name of the migration.
+
+OPTIONS
+  -f, --force
+  -h, --help       show CLI help
+  --create=create  The table to be created.
+  --path=path      The location where the migration file should be created.
+  --stub=stub      The location where the stub file.
+  --table=table    The table to migrate.
+  --transaction    Enables, migration within a transaction.
+
+EXAMPLE
+  $ migrations make create_users_table --create users
+  Created Migration: 2018_05_26_190517_create_users_table
+```
+
+_See code: [src/commands/make.ts](https://github.com/MunNaaS/migrations/blob/v0.0.0/src/commands/make.ts)_
+
+## `migrations up [FILE]`
+
+describe the command here
+
+```
+USAGE
+  $ migrations up [FILE]
+
+OPTIONS
+  -f, --force
+  -h, --help   show CLI help
+  --path=path  The path to the migrations files to be executed.
+```
+
+_See code: [src/commands/up.ts](https://github.com/MunNaaS/migrations/blob/v0.0.0/src/commands/up.ts)_
 <!-- commandsstop -->

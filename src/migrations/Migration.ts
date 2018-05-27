@@ -1,5 +1,5 @@
-import { MigrationConfig as Config } from './configuration'
-
+import * as Knex from 'knex'
+import { Migration as MigrationInterface } from './Interface/Migration'
 export abstract class Migration {
   /**
    * Enables, if supported, wrapping the migration within a transaction.

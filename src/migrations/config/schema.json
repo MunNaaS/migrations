@@ -1,0 +1,144 @@
+{
+    "statement": [
+        {
+            "name": "dropColumn",
+            "help": "table.dropColumn(name)"
+        },
+        {
+            "name": "dropColumns",
+            "help": "table.dropColumns(*columns)"
+        },
+        {
+            "name": "dropTimestamps",
+            "help": "table.dropTimestamps()"
+        },
+        {
+            "name": "dropIndex",
+            "help": "table.dropIndex(columns, [indexName])"
+        },
+        {
+            "name": "dropForeign",
+            "help": "table.dropForeign(columns, [foreignKeyName])"
+        },
+        {
+            "name": "dropUnique",
+            "help": "table.dropUnique(columns, [indexName])"
+        },
+        {
+            "name": "dropPrimary",
+            "help": "table.dropPrimary([constraintName])"
+        },
+        {
+            "name": "renameColumn",
+            "help": "table.renameColumn(from, to)"
+        }
+    ],
+    "datatype": [
+        {
+            "name": "increments",
+            "help": "table.increments(name)"
+        },
+        {
+            "name": "integer",
+            "help": "table.integer(name)"
+        },
+        {
+            "name": "bigInteger",
+            "help": "table.bigInteger(name)"
+        },
+        {
+            "name": "text",
+            "help": "table.text(name, [textType])"
+        },
+        {
+            "name": "string",
+            "help": "table.string(name, [length])"
+        },
+        {
+            "name": "float",
+            "help": "table.float(column, [precision], [scale])"
+        },
+        {
+            "name": "decimal",
+            "help": "table.decimal(column, [precision], [scale])"
+        },
+        {
+            "name": "boolean",
+            "help": "table.boolean(name)"
+        },
+        {
+            "name": "date",
+            "help": "table.date(name)"
+        },
+        {
+            "name": "dateTime",
+            "help": "table.dateTime(name)"
+        },
+        {
+            "name": "time",
+            "help": "table.time(name)"
+        },
+        {
+            "name": "timestamp",
+            "help": "table.timestamp(name, [standard])"
+        },
+        {
+            "name": "timestamps",
+            "help": "table.timestamps([useTimestamps], [defaultToNow])"
+        },
+        {
+            "name": "enum",
+            "help": "table.enu(col, values)"
+        },
+        {
+            "name": "json",
+            "help": "table.json(name)"
+        },
+        {
+            "name": "jsonb",
+            "help": "table.jsonb(name)"
+        }
+    ],
+    "attributes": [
+        {
+            "name": "alter",
+            "help": "column.alter()"
+        },
+        {
+            "name": "index",
+            "help": "column.index([indexName], [indexType])"
+        },
+        {
+            "name": "primary",
+            "help": "column.primary([constraintName])"
+        },
+        {
+            "name": "unique",
+            "help": "column.unique()"
+        },
+        {
+            "name": "references",
+            "help": "column.references(column)"
+        },
+        {
+            "name": "onDelete",
+            "help": "column.onDelete(command)"
+        },
+        {
+            "name": "onUpdate",
+            "help": "column.onUpdate(command)"
+        },
+        {
+            "name": "defaultTo",
+            "help": "column.defaultTo(value)"
+        },
+        {
+            "name": "unsigned",
+            "help": "column.unsigned()"
+        },
+        {
+            "name": "nullable",
+            "help": "column.nullable()"
+        }
+    ]
+}

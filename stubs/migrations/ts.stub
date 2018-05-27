@@ -1,0 +1,44 @@
+import * as Knex from 'knex'
+
+export class ${ className } {${
+  !transaction ? '  public withinTransaction: boolean = false' : ''
+}
+  public up (knex: Knex) {<%
+  if (table) {%>
+    return knex.schema.${ create ? 'createTable' : 'table' }('${ table }', function (table: Knex) {
+      ${ increments ? 'table.increments()' : '\r' }<%
+      for (column in columns) {
+        let dataType = columns[column].dataType
+        let attributes = columns[column].attributes%>
+      table.${ type }(${ column })<% if (Object.keys(attributes).length > 0) {
+          for (attribute in attributes) {
+            '.'+attribute+'('+attributes[attribute]+')'
+          }
+        } %><%
+      } %>
+      ${ timestamps ? 'table.timestamps()' : '\r' }
+    })<%
+    } %>
+  }
+
+  public down (knex: any) {<%
+if (table) {
+  if (create) { %>
+    return knex.schema.dropTableIfExists('${ table }')<%
+  } else { %>
+    return knex.schema.table('${ table }', function (table: any) {<%
+    for (column of columns) {
+        let type = column.type
+        let name = column.name
+        let options = column.options %>
+      table.${ column.type }(${ column.name })<% if (Object.keys(options).length > 0) {
+          for (opt in options) {
+            '.'+opt+'('+options[opt]+')'
+          }
+        }
+      } %>
+    })<%
+  }
+} %>
+  }
+}
