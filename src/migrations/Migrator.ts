@@ -1,4 +1,4 @@
-import { join, extname } from 'path'
+import { join, extname, basename } from 'path'
 import * as Knex from 'knex'
 import * as globby from 'globby'
 import { sortBy, reject } from 'lodash'
@@ -27,6 +27,12 @@ export default class Migrator {
 
   public async run (directories: string[] = [], options: object = {}) {
     let files = await this.getMigrationFile(directories)
+    let exists = await this._repository.repositoryExists()
+
+    if (!exists) {
+      await this._repository.createRepository()
+    }
+
     let ran = await this._repository.getRan()
     let migrations = await this.pendingMigrations(files, ran)
     this.runPending(migrations, options)
@@ -35,7 +41,7 @@ export default class Migrator {
   public async getMigrationFile (directories: string[]): Promise<string[]> {
     let files: string[] = []
     for (const directory of directories) {
-      files.concat(await globby(directory))
+      files = files.concat(await globby(directory + '/*_*' + this._ext))
     }
     files = sortBy(files, (file: string) => {
       return this.getMigrationName(file)
@@ -44,7 +50,7 @@ export default class Migrator {
   }
 
   public getMigrationName (path: string) {
-    return path.replace(this._ext, '')
+    return basename(path, this._ext)
   }
 
   public async runPending (migrations: string[], options: any) {
@@ -52,42 +58,41 @@ export default class Migrator {
     let pretend = options.pretend || false
     let step = options.step || false
 
-    migrations.forEach((path: string) => {
-      this.runUp(path, batch, pretend)
+    for (const path of migrations) {
+      await this.runUp(path, batch, pretend)
       if (step) {
         batch++
       }
-    })
+    }
   }
 
-  public resolve (path: string): Migration {
-    const Class = require(path)
-    return new Class()
+  public async resolve (path: string): Promise<Migration> {
+    const Class = await import(path)
+    return new Class.default()
   }
 
-  public resolveConnection (connection?: string): Knex {
+  public async resolveConnection (connection?: string): Promise<Knex> {
     return this._resolver.connection(connection || this._connection)
   }
 
-  protected runUp (path: string, batch: number, pretend: boolean) {
+  protected async runUp (path: string, batch: number, pretend: boolean) {
     let name = this.getMigrationName(path)
-    let migration = this.resolve(name)
-
+    let migration = await this.resolve(path.replace(this._ext, ''))
     if (pretend) {
       // return this.pretendToRun(migration, 'up')
     }
-    this.runMigration(migration, 'up')
-    this._repository.log(name, batch)
+    this.runMigration(migration, 'up').then(() => {
+      this._repository.log(name, batch)
+    }).catch((error) => {
+      throw error
+    })
   }
 
-  protected runMigration (migration: Migration, method: string) {
-    let connection = this.resolveConnection(migration.connection)
-    let callback = () => {
-      if (typeof migration[method] === 'function') {
-        migration[method](connection)
-      }
-    }
-    migration.withinTransaction ? connection.transaction(callback) : callback()
+  protected async runMigration (migration: Migration, method: string) {
+    let connection = await this.resolveConnection(migration.connection)
+
+    migration.withinTransaction ||
+    true ? connection.transaction(migration[method]) : migration[method](connection)
   }
 
   protected async pendingMigrations (files: string[], ran: string[]): Promise<string[]> {

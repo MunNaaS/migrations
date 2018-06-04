@@ -2,7 +2,6 @@ import * as Knex from 'knex'
 import { mapValues, mapKeys, Dictionary } from 'lodash'
 import { DatabaseMigrationRepository as Repository } from './Interface/DatabaseMigrationRepository'
 import { ConnectionResolver as Resolver } from './Interface/ConnectionResolver'
-import { Connections } from './Interface/Connections'
 
 export default class DatabaseMigrationRepository implements Repository {
 
@@ -162,8 +161,8 @@ export default class DatabaseMigrationRepository implements Repository {
    * @memberof DatabaseMigrationRepository
    */
   public async getLastBatchNumber (): Promise<number> {
-    let batch = await this.table().max('batch')
-    return batch
+    let batch = await this.table().max('batch as last')
+    return Number(batch[0]['last'])
   }
 
   /**
@@ -172,7 +171,7 @@ export default class DatabaseMigrationRepository implements Repository {
    * @memberof DatabaseMigrationRepository
    */
   public async createRepository (): Promise<void> {
-    await this.getConnection()
+    let r = await this.getConnection()
     .schema.createTableIfNotExists(this._table, (table) => {
       // The migrations table is responsible for keeping track of which of the
       // migrations have actually run for the application. We'll create the
@@ -190,8 +189,11 @@ export default class DatabaseMigrationRepository implements Repository {
    * @memberof DatabaseMigrationRepository
    */
   public async repositoryExists (): Promise<boolean> {
-    let exists = await this.getConnection().schema.hasTable(this._table)
-    return exists
+    try {
+      return this.getConnection().schema.hasTable(this._table)
+    } catch (error) {
+      throw error
+    }
   }
 
   /**

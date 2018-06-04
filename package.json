@@ -46,7 +46,8 @@
     "typescript": "^2.8"
   },
   "peerDependencies": {
-    "knex": "^0.14.6"
+    "knex": "^0.14.6",
+    "sqlite3": "^4.0.0"
   },
   "engines": {
     "node": ">=8.11.1"
@@ -84,8 +85,5 @@
     "lint": "tslint -p .",
     "fix": "tslint --fix -p ."
   },
-  "types": "lib/index.d.ts",
-  "optionalDependencies": {
-    "sqlite3": "^4.0.0"
-  }
+  "types": "lib/index.d.ts"
 }

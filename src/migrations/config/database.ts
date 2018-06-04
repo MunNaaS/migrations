@@ -5,44 +5,39 @@ export default {
 
   connections: {
     sqlite: {
-      client: 'sqlite3',
-      database: process.env.DB_DATABASE || 'database.db',
-      useNullAsDefault: true,
-      prefix: '',
+      driver: 'sqlite3',
+      filename: process.env.DB_DATABASE || 'database.sqlite',
     },
     mysql: {
-      client: 'mysql',
+      driver: 'mysql',
       host: process.env.DB_HOST || '127.0.0.1',
       port: process.env.DB_PORT || '3306',
       database: process.env.DB_DATABASE || 'devlopment',
-      username: process.env.DB_USERNAME || 'devloper',
+      user: process.env.DB_USERNAME || 'devloper',
       password: process.env.DB_PASSWORD || 'secret',
       charset: 'utf8mb4',
-      collation: 'utf8mb4_unicode_ci',
-      prefix: '',
     },
     postgresql: {
-      client: 'pg',
+      driver: 'pg',
       host: process.env.DB_HOST || '127.0.0.1',
       port: process.env.DB_PORT || '5432',
       database: process.env.DB_DATABASE || 'devlopment',
-      username: process.env.DB_USERNAME || 'devloper',
+      user: process.env.DB_USERNAME || 'devloper',
       password: process.env.DB_PASSWORD || 'secret',
       charset: 'utf8',
-      prefix: '',
-      schema: '',
     },
     mssql: {
-      client: 'mssql',
+      driver: 'mssql',
       host: process.env.DB_HOST || 'localhost',
       port: process.env.DB_PORT || '1433',
       database: process.env.DB_DATABASE || 'devlopment',
-      username: process.env.DB_USERNAME || 'devloper',
+      user: process.env.DB_USERNAME || 'devloper',
       password: process.env.DB_PASSWORD || 'secret',
       charset: 'utf8',
-      prefix: '',
     },
   },
+
+  useNullAsDefault: true,
 
   migrations: {
     table: 'knex_migrations',
@@ -53,6 +48,5 @@ export default {
   },
   seeds: {
     directory: join(process.cwd(), './database/seeds'),
-    stub: '',
   },
 }

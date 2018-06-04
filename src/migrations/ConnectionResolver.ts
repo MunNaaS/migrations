@@ -1,6 +1,15 @@
 import * as Knex from 'knex'
 import { ConnectionResolver as Resolver } from './Interface/ConnectionResolver'
-import { Connections } from './Interface/Connections'
+// import { Connections } from './Interface/Connections'
+import {
+  Connections,
+  ConnectionConfig,
+  MariaSqlConnectionConfig,
+  MySqlConnectionConfig,
+  MsSqlConnectionConfig,
+  Sqlite3ConnectionConfig,
+  SocketConnectionConfig,
+ } from './Interface/Configuration'
 export class ConnectionResolver implements Resolver {
 
   /**
@@ -10,7 +19,7 @@ export class ConnectionResolver implements Resolver {
    * @type {object}
    * @memberof ConnectionResolver
    */
-  protected connections: Connections
+  protected _connections: Connections
 
   /**
    * The default connection name.
@@ -19,10 +28,14 @@ export class ConnectionResolver implements Resolver {
    * @type {string}
    * @memberof ConnectionResolver
    */
-  protected default?: string
+  protected _default?: string
 
   constructor (connections: Connections) {
-    this.connections = connections
+    this._connections = connections
+  }
+
+  public set connections (connections: Connections) {
+    this._connections = Object.assign(this._connections, connections)
   }
 
   /**
@@ -32,8 +45,8 @@ export class ConnectionResolver implements Resolver {
    * @param {object} connection is a object of connection.
    * @memberof ConnectionResolver
    */
-  public addConnection (name: string, connection: Knex) {
-    this.connections[name] = connection
+  public addConnection (name: string, connection: Connections) {
+    this._connections[name] = connection
   }
 
   /**
@@ -54,12 +67,18 @@ export class ConnectionResolver implements Resolver {
    * @returns {object} is a object of connection.
    * @memberof ConnectionResolver
    */
-  connection (name?: string): Knex {
-    if (this.default === undefined) {
-      throw new Error('Conection default is undefined.')
+  public connection (name?: string): Knex {
+    if (name === undefined) {
+      name = this._default
     }
 
-    return this.connections[name || this.default]
+    if (name === undefined) {
+      throw new Error('Conection default is undefined.')
+    }
+    // console.log(name)
+    // console.log(this._connections[name])
+    let knexfile = this.parseConfig(this._connections[name])
+    return Knex(knexfile)
   }
 
   /**
@@ -68,8 +87,8 @@ export class ConnectionResolver implements Resolver {
    * @returns {string} is a name of connection.
    * @memberof ConnectionResolver
    */
-  getDefaultConnection (): string | undefined {
-    return this.default
+  public getDefaultConnection (): string | undefined {
+    return this._default
   }
 
   /**
@@ -78,7 +97,18 @@ export class ConnectionResolver implements Resolver {
    * @param {string} name is a name of connection.
    * @memberof ConnectionResolver
    */
-  setDefaultConnection (name: string): void {
-    this.default = name
+  public setDefaultConnection (name: string): void {
+    this._default = name
+  }
+
+  public parseConfig (connection: ConnectionConfig | MariaSqlConnectionConfig | MySqlConnectionConfig | MsSqlConnectionConfig | Sqlite3ConnectionConfig | SocketConnectionConfig): Knex.Config {
+    let client = connection.driver
+    let connect: Knex.ConnectionConfig | Knex.MariaSqlConnectionConfig | Knex.MySqlConnectionConfig | Knex.MsSqlConnectionConfig | Knex.Sqlite3ConnectionConfig | Knex.SocketConnectionConfig = connection
+
+    return {
+      client: client,
+      connection: connect,
+      useNullAsDefault: true,
+    }
   }
 }
