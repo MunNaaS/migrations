@@ -5,7 +5,7 @@ export class ${ className } {${
 }
   public up (knex: Knex) {<%
   if (table) {%>
-    return knex.schema.${ create ? 'createTable' : 'table' }('${ table }', function (table: Knex) {
+    return knex.schema.${ create ? 'createTable' : 'table' }('${ table }', function (table: Knex.CreateTableBuilder) {
       ${ increments ? 'table.increments()' : '\r' }<%
       for (column in columns) {
         let dataType = columns[column].dataType
@@ -21,12 +21,12 @@ export class ${ className } {${
     } %>
   }
 
-  public down (knex: any) {<%
+  public down (knex: Knex) {<%
 if (table) {
   if (create) { %>
     return knex.schema.dropTableIfExists('${ table }')<%
   } else { %>
-    return knex.schema.table('${ table }', function (table: any) {<%
+    return knex.schema.table('${ table }', function (table: Knex.CreateTableBuilder) {<%
     for (column of columns) {
         let type = column.type
         let name = column.name

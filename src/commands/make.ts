@@ -53,8 +53,12 @@ Created Migration: ${ utc().format('YYYY_MM_DD_HHMMSS') }_create_users_table
     let { table, create, path, stub, transaction } = flags
     // let ans = await prompt
     const creator = new MigrationCreator(config.migrations)
-    let migrationfile = await creator.create(args.name, create, table, path, stub, transaction)
-    this.log(migrationfile)
+    try {
+      let migrationfile = await creator.create(args.name, create, table, path, stub, transaction)
+      this.log(migrationfile)
+    } catch(err) {
+      this.error(err)
+    }
   }
 
 }

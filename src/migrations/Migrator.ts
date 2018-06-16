@@ -35,7 +35,7 @@ export default class Migrator {
 
     let ran = await this._repository.getRan()
     let migrations = await this.pendingMigrations(files, ran)
-    this.runPending(migrations, options)
+    await this.runPending(migrations, options)
   }
 
   public async getMigrationFile (directories: string[]): Promise<string[]> {
@@ -76,27 +76,22 @@ export default class Migrator {
   }
 
   protected async runUp (path: string, batch: number, pretend: boolean) {
-    let name = this.getMigrationName(path)
     let migration = await this.resolve(path.replace(this._ext, ''))
     if (pretend) {
       // return this.pretendToRun(migration, 'up')
     }
-    this.runMigration(migration, 'up').then(() => {
-      this._repository.log(name, batch)
-    }).catch((error) => {
-      throw error
-    })
+    await this.runMigration(migration, 'up')
+    await this._repository.log(this.getMigrationName(path), batch)
   }
 
   protected async runMigration (migration: Migration, method: string) {
     let connection = await this.resolveConnection(migration.connection)
 
-    migration.withinTransaction ||
-    true ? connection.transaction(migration[method]) : migration[method](connection)
+    await migration[method](connection)
   }
 
   protected async pendingMigrations (files: string[], ran: string[]): Promise<string[]> {
-    return reject(files, (file) => {
+    return reject(files, (file: string) => {
       return ran.includes(this.getMigrationName(file))
     })
   }

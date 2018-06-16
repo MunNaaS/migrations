@@ -1,22 +1,17 @@
 import { utc } from 'moment'
 import { promisify } from 'util'
 import { pascalCase } from 'change-case'
-import { join, resolve, sep } from 'path'
+import { join, resolve, sep, isAbsolute } from 'path'
 import { template } from 'lodash'
 import {
   readFile as readFileCallBack,
   writeFile as writeFileCallBack,
-  open as openCallBack,
   mkdir as mkdirCallBack,
-  writeFileSync,
-  statSync,
-  mkdirSync,
 } from 'fs'
 
 const readFile = promisify(readFileCallBack)
 const writeFile = promisify(writeFileCallBack)
 const mkdir = promisify(mkdirCallBack)
-const open = promisify(openCallBack)
 
 export class MigrationCreator {
   protected _ext: string
@@ -61,20 +56,22 @@ export class MigrationCreator {
   }
 
   public getPrefix (): string {
-    return utc().format('YYYY_MM_DD_HHMMSS')
+    return utc().format('YYYY_MM_DD_HHmmss')
   }
 
   protected async ensureMigrationsDirectoryExists (directory: string) {
+
     let segments = directory.split(sep)
     let dir = ''
+    if (isAbsolute(directory)) {
+      dir = sep
+    }
     for (const i in segments) {
       if (segments.hasOwnProperty(i)) {
         const segment = segments[i]
         dir = join(dir, segment)
         try {
-          if (dir !== '.') {
-            await mkdir(dir)
-          }
+          await mkdir(dir)
         } catch (e) {
           if (e.code !== 'EEXIST') {
             throw e

@@ -17,6 +17,7 @@
     "laravel-collection": "^1.2.2",
     "listr": "^0.14.1",
     "lodash": "^4.17.10",
+    "mkdirp-promise": "^5.0.1",
     "moment": "^2.22.1",
     "oclif": "^1.7.40",
     "pluralize": "^7.0.0"
@@ -31,6 +32,7 @@
     "@types/knex": "^0.14.14",
     "@types/listr": "^0.13.0",
     "@types/lodash": "^4.14.108",
+    "@types/mkdirp-promise": "^5.0.0",
     "@types/mocha": "^5",
     "@types/node": "^10.0.8",
     "@types/pluralize": "^0.0.28",
@@ -46,8 +48,7 @@
     "typescript": "^2.8"
   },
   "peerDependencies": {
-    "knex": "^0.14.6",
-    "sqlite3": "^4.0.0"
+    "knex": "^0.14.6"
   },
   "engines": {
     "node": ">=8.11.1"
@@ -85,5 +86,9 @@
     "lint": "tslint -p .",
     "fix": "tslint --fix -p ."
   },
-  "types": "lib/index.d.ts"
+  "types": "lib/index.d.ts",
+  "optionalDependencies": {
+    "mysql": "^2.15.0",
+    "sqlite3": "^4.0.0"
+  }
 }

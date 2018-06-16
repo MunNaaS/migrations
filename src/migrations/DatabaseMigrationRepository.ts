@@ -172,7 +172,7 @@ export default class DatabaseMigrationRepository implements Repository {
    */
   public async createRepository (): Promise<void> {
     let r = await this.getConnection()
-    .schema.createTableIfNotExists(this._table, (table) => {
+    .schema.createTable(this._table, (table) => {
       // The migrations table is responsible for keeping track of which of the
       // migrations have actually run for the application. We'll create the
       // table to hold the migration file's path as well as the batch ID.

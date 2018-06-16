@@ -1,7 +1,7 @@
 import { resolve, join } from 'path'
 export default {
 
-  default: process.env.DB_CONNECTION || 'sqlite',
+  default: process.env.DB_CONNECTION || 'mysql',
 
   connections: {
     sqlite: {
@@ -12,8 +12,8 @@ export default {
       driver: 'mysql',
       host: process.env.DB_HOST || '127.0.0.1',
       port: process.env.DB_PORT || '3306',
-      database: process.env.DB_DATABASE || 'devlopment',
-      user: process.env.DB_USERNAME || 'devloper',
+      database: process.env.DB_DATABASE || 'development',
+      user: process.env.DB_USERNAME || 'developer',
       password: process.env.DB_PASSWORD || 'secret',
       charset: 'utf8mb4',
     },
